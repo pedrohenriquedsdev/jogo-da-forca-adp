@@ -2,19 +2,6 @@
 
 namespace jogo_da_forca_adp.ConsoleApp;
 
-/*
-Especificação: 
-    Nosso próximo desafio é desenvolver um jogo de forca. O computador escolherá, de maneira
-    aleatória, uma palavra entre várias possibilidades, e o jogador deve chutar, letra por letra, até
-    adivinhá-la.
-    Se o jogador chutar 5 letras erradas, ele perde.
-
-Requisitos
-3. O jogador poderá cometer até cinco erros, caso erre pela quinta vez, ou acerte a palavra a partida
-acaba.
-4. Deve-se apresentar um desenho da forca sendo atualizado a cada erro.
-*/
-
 class Program
 {
     static void Main(string[] args)
@@ -30,14 +17,16 @@ class Program
 
             // 1. Ao iniciar o jogo, deve ser selecionada uma palavra aleatória à partir de uma lista.
             //Escolher uma palavra aleatória
-            string palavraAleatoria = EscolherPalavraAleatoria();
+            string palavraAleatoria = GerarPalavraAleatoria(); //OBTÉM O RETORNO DO MÉTODO
 
             Console.WriteLine(palavraAleatoria);
 
-            // 2. O jogador poderá chutar a palavra secreta letra por letra, cada letra certa deverá ser apresentada, assim como as letras erradas.
-            char[] letrasAcertadas = new char[palavraAleatoria.Length];
 
-            for (int caractere = 0; caractere < letrasAcertadas.Length; caractere++)
+
+            // 2. O jogador poderá chutar a palavra secreta letra por letra, cada letra certa deverá ser apresentada, assim como as letras erradas.
+            char[] letrasAcertadas = new char[palavraAleatoria.Length]; //RECEBE O TAMANHO DA PALAVRA ALEATÓRIA QUE POR SUA VEZ POSSUI ÍNDICES MESMO SENDO UM ARRAY
+
+            for (int caractere = 0; caractere < letrasAcertadas.Length; caractere++) //GERAR "_" RESPEITANDO O TAMANHO DA PALAVRA ALEATÓRIA GERADA (lembra que indice e length entregam valores diferentes)
             {
                 letrasAcertadas[caractere] = '_';
             }
@@ -58,19 +47,19 @@ class Program
                     continue;
                 }
 
-                char letraChute = Convert.ToChar(strLetra.ToUpper());
+                char letraChute = Convert.ToChar(strLetra.ToUpper()); //ARMAZENA EM MAIÚSCULA A LETRA DIGITADA PELO USER 
 
-                for (int contador = 0; contador < palavraAleatoria.Length; contador++)
+                for (int contador = 0; contador < palavraAleatoria.Length; contador++) //PERCORRE INDICE por INDICE A "palavraAleatoria"
                 {
-                    char letraAtual = palavraAleatoria[contador];
+                    char letraAtual = palavraAleatoria[contador]; //ARMAZENA O CARACTERE DA "palavraAleatoria" EM "letraAtual" A CADA VOLTA
 
-                    if (letraChute == letraAtual)
+                    if (letraChute == letraAtual) //SE NAQUELA RODADA FOR IGUAL, O ARRAY "letrasAcertadas" RECEBE O VALOR NA POSIÇÃO CORRETA.
                     {
                         letrasAcertadas[contador] = letraAtual;
                     }
                 }
 
-                ogadorAcertouPalavra = palavraAleatoria == string.Join("", letrasAcertadas);
+                jogadorAcertouPalavra = palavraAleatoria == string.Join("", letrasAcertadas);
             }
 
             Console.WriteLine("Deseja continuar o jogo? (S/N): ");
@@ -81,7 +70,7 @@ class Program
         }
     }
 
-    static string EscolherPalavraAleatoria()
+    static string GerarPalavraAleatoria()
     {
         Console.WriteLine("Escolhendo palavra aleátoria");
 
@@ -118,9 +107,9 @@ class Program
             "UVAIA"
        ];
 
-        int indiceAleatorio = RandomNumberGenerator.GetInt32(palavras.Length); //APENAS 1 ARG PARA O RNG (GERA NUM ALEATÓRIO ENTRE 0 E O VARIAVEL.LENGTH) 
+        int indiceAleatorio = RandomNumberGenerator.GetInt32(palavras.Length); //PEGA O TOTAL DE ÍNDICES NO ARRAY E A PARTIR DELE GERA UM NÚMERO ALEATÓRIO QUE É ARMAZENADO NO "indiceAleatorio"
 
-        string palavraAleatoria = palavras[indiceAleatorio]; //RECEBE ÍNDICE ALEATÓRIO PARA ARMAZENAR ESSA PALAVRA ALEATÓRIA
+        string palavraAleatoria = palavras[indiceAleatorio]; //PEGA UMA PALAVRA ALEATÓRIA E ARMAZENA NA "palavraAleatoria"
 
         return palavraAleatoria;
     }
