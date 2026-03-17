@@ -32,10 +32,14 @@ class Program
             }
 
             bool jogadorAcertouPalavra = false;
+            bool jogadorPerdeu = false;
 
-            while (jogadorAcertouPalavra == false)
+            int quantidadeDeErros = 0;
+
+            while (!jogadorAcertouPalavra && !jogadorPerdeu)
             {
                 Console.WriteLine(letrasAcertadas);
+                Console.WriteLine($"Quantidade de erros: {quantidadeDeErros}");
 
                 Console.Write("Digite uma letra: ");
                 string? strLetra = Console.ReadLine();
@@ -49,6 +53,8 @@ class Program
 
                 char letraChute = Convert.ToChar(strLetra.ToUpper()); //ARMAZENA EM MAIÚSCULA A LETRA DIGITADA PELO USER 
 
+                bool letraFoiEncontrada = false;
+
                 for (int contador = 0; contador < palavraAleatoria.Length; contador++) //PERCORRE INDICE por INDICE A "palavraAleatoria"
                 {
                     char letraAtual = palavraAleatoria[contador]; //ARMAZENA O CARACTERE DA "palavraAleatoria" EM "letraAtual" A CADA VOLTA
@@ -56,10 +62,30 @@ class Program
                     if (letraChute == letraAtual) //SE NAQUELA RODADA FOR IGUAL, O ARRAY "letrasAcertadas" RECEBE O VALOR NA POSIÇÃO CORRETA.
                     {
                         letrasAcertadas[contador] = letraAtual;
+                        letraFoiEncontrada = true;
                     }
                 }
 
-                jogadorAcertouPalavra = palavraAleatoria == string.Join("", letrasAcertadas);
+                if (letraFoiEncontrada == false) //CONTROLA OS ERROS POR RODADA, SE EU CONTABILIZAR POR LETRA AO MENOS UMA ESTARÁ ERRADA.
+                    quantidadeDeErros++;
+
+                jogadorAcertouPalavra = palavraAleatoria == string.Join("", letrasAcertadas); //ESSA COMPARAÇÃO SE CERTA, RETORNA TRUE E A VARAIVEL RECEBE TRUE.
+                jogadorPerdeu = quantidadeDeErros > 5; //MESMSA COISA AQUI, UMA COMPARAÇÃO RETORNA VALORES BOOL.
+
+                if (jogadorAcertouPalavra)
+                {
+                    Console.WriteLine("=================");
+                    Console.WriteLine($"Você acertou a palavra secreta {palavraAleatoria}");
+                    Console.WriteLine("=================");
+                }
+                else if (jogadorPerdeu)
+                {
+                    Console.WriteLine("=================");
+                    Console.WriteLine($"Que azar! A palavra secreta era {palavraAleatoria}");
+                    Console.WriteLine("=================");
+                }
+
+                Console.ReadLine();
             }
 
             Console.WriteLine("Deseja continuar o jogo? (S/N): ");
