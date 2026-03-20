@@ -1,7 +1,5 @@
 ﻿using System.Security.Cryptography;
 
-namespace JogoDaForca.ConsoleApp;
-
 /*
 Requisitos
     1. Ao iniciar o jogo, deve ser selecionada uma palavra aleatória à partir de uma lista.
